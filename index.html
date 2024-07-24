@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>BHARATH WEB</title>
+
+    <style>
+
+
+      @import url('https://fonts.cdnfonts.com/css/ica-rubrik-black');
+      @import url('https://fonts.cdnfonts.com/css/poppins');
+      
+      .banner{
+          width: 100%;
+          height: 100vh;
+          text-align: center;
+          overflow: hidden;
+          position: relative;
+      }
+      .banner .slider{
+          position: absolute;
+          width: 200px;
+          height: 250px;
+          top: 10%;
+          left: calc(50% - 100px);
+          transform-style: preserve-3d;
+          transform: perspective(1000px);
+          animation: autoRun 20s linear infinite;
+          z-index: 2;
+      }
+      @keyframes autoRun{
+          from{
+              transform: perspective(1000px) rotateX(-16deg) rotateY(0deg);
+          }to{
+              transform: perspective(1000px) rotateX(-16deg) rotateY(360deg);
+          }
+      }
+      
+      .banner .slider .item{
+          position: absolute;
+          inset: 0 0 0 0;
+          transform: 
+              rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+              translateZ(550px);
+      }
+      .banner .slider .item img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+      }
+      .banner .content{
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: min(1400px, 100vw);
+          height: max-content;
+          padding-bottom: 100px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          align-items: center;
+          z-index: 1;
+      }
+      .banner .content h1{
+          font-family: 'ICA Rubrik';
+          font-size: 16em;
+          line-height: 1em;
+          color: #25283B;
+          position: relative;
+      }
+      .banner .content h1::after{
+          position: absolute;
+          inset: 0 0 0 0;
+          content: attr(data-content);
+          z-index: 2;
+          -webkit-text-stroke: 2px #d2d2d2;
+          color: transparent;
+      }
+      .banner .content .author{
+          font-family: Poppins;
+          text-align: right;
+          max-width: 200px;
+      }
+      .banner .content h2{
+          font-size: 3em;
+      }
+      .banner .content .model{
+          background-image: url(images/model.png);
+          width: 80%;
+          height: 65vh;
+          position: absolute;
+          bottom: 0;
+          left: 13%;
+          background-size: auto 130%;
+          background-repeat: no-repeat;
+          background-position: top center;
+          z-index: 1;
+      }
+      @media screen and (max-width: 1023px) {
+          .banner .slider{
+              width: 160px;
+              height: 200px;
+              left: calc(50% - 80px);
+          }
+          .banner .slider .item{
+              transform: 
+                  rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+                  translateZ(300px);
+          }
+          .banner .content h1{
+              text-align: center;
+              width: 100%;
+              text-shadow: 0 10px 20px #000;
+              font-size: 7em;
+          }
+          .banner .content .author{
+              color: #fff;
+              padding: 20px;
+              text-shadow: 0 10px 20px #000;
+              z-index: 2;
+              max-width: unset;
+              width: 100%;
+              text-align: center;
+              padding: 0 30px;
+          }
+      }
+      @media screen and (max-width: 767px) {
+          .banner .slider{
+              width: 100px;
+              height: 150px;
+              left: calc(50% - 50px);
+          }
+          .banner .slider .item{
+              transform: 
+                  rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+                  translateZ(180px);
+          }
+          .banner .content h1{
+              font-size: 5em;
+          }
+      }
+        body, html, #app {
+          margin: 0;
+          width: 100%;
+          height: 100%;
+        }
+      
+        #app {
+          overflow: hidden;
+          touch-action: pan-up;
+          color: #ffffff;
+          font-family: 'Montserrat', sans-serif;
+          text-align: center;
+          text-shadow: 0 0 5px #ffffff, 0 0 20px #000, 0 0 30px #000;
+        }
+      
+        #app h1 {
+          --fontSize: 40px;
+          --lineHeight: 80px;
+          width: auto;
+          height: calc(2 * var(--lineHeight));
+          line-height: var(--lineHeight);
+          margin: calc(50vh - var(--lineHeight)) auto 0;
+          font-size: var(--fontSize);
+          text-transform: uppercase;
+        }
+      
+        #app a {
+          margin-top: 10px;
+          display: inline-block;
+          text-decoration: none;
+          color: #fff;
+        }
+      
+        #app canvas {
+          display: block;
+          position: fixed;
+          z-index: -1;
+          top: 0;
+        }
+      </style>
+      
+  </head>
+  <body>
+    <nav>
+      <div class="nav__logo">BVL</div>
+      <ul class="nav__links">
+        <li class="link"><a href="#">Home</a></li>
+        <li class="link"><a href="#">Book</a></li>
+        <li class="link"><a href="#">Menu</a></li>
+        <li class="link"><a href="#">Contact Us</a></li>
+      </ul>
+    </nav>
+    <header class="section__container header__container">
+      <div class="header__image__container">
+        <div class="header__content">
+          <h1>Enjoy Your Dream Vacation</h1>
+          <p>Book Hotels, Flights and stay packages at lowest price.</p>
+        </div>
+        <div class="booking__container">
+          <form>
+            <div class="form__group">
+              <div class="input__group">
+                <input type="text" />
+                <label>Location</label>
+              </div>
+              <p>Where are you going?</p>
+            </div>
+            <div class="form__group">
+              <div class="input__group">
+                <input type="text" />
+                <label>Check In</label>
+              </div>
+              <p>Add date</p>
+            </div>
+            <div class="form__group">
+              <div class="input__group">
+                <input type="text" />
+                <label>Check Out</label>
+              </div>
+              <p>Add date</p>
+            </div>
+            <div class="form__group">
+              <div class="input__group">
+                <input type="text" />
+                <label>Guests</label>
+              </div>
+              <p>Add guests</p>
+            </div>
+          </form>
+          <button class="btn"><i class="ri-search-line"></i></button>
+        </div>
+      </div>
+    </header>
+
+    <section class="section__container popular__container">
+      <h2 class="section__header">Popular Hotels</h2>
+      <div class="popular__grid">
+        <div class="popular__card">
+          <img src="assets/pexels-photo-261101.jpeg" alt="popular hotel" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>The Plaza Hotel</h4>
+              <h4>$499</h4>
+            </div>
+            <p>Tirupati,Andhra Pradesh,India</p>
+          </div>
+        </div>
+        <div class="popular__card">
+          <img src="assets/hotel-2.jpg" alt="popular hotel" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>Ritz Paris</h4>
+              <h4>$549</h4>
+            </div>
+            <p>Nellore,Andhra Pradesh,India</p>
+          </div>
+        </div>
+        <div class="popular__card">
+          <img src="assets/hotel-3.jpg" alt="popular hotel" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>The Peninsula</h4>
+              <h4>$599</h4>
+            </div>
+            <p>Goa,India</p>
+          </div>
+        </div>
+        <div class="popular__card">
+          <img src="assets/hotel-4.jpg" alt="popular hotel" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>Atlantis The Palm</h4>
+              <h4>$449</h4>
+            </div>
+            <p>Kerala,India</p>
+          </div>
+        </div>
+        <div class="popular__card">
+          <img src="assets/hotel-5.jpg" alt="popular hotel" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>The Ritz-Carlton</h4>
+              <h4>$649</h4>
+            </div>
+            <p>Chennai,Tamil Nadu,India</p>
+          </div>
+        </div>
+        <div class="popular__card">
+          <img src="assets/pexels-photo-189296.jpeg" alt="popular hotel" />
+          <div class="popular__content">
+            <div class="popular__card__header">
+              <h4>Marina Bay Sands</h4>
+              <h4>$549</h4>
+            </div>
+            <p>Maldives</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="banner">
+      <div class="slider" style="--quantity: 8">
+          <div class="item" style="--position: 1"><img src="https://images.unsplash.com/photo-1571781418606-70265b9cce90?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTc1fHxyZXNvcnRzJTIwcm9vbXxlbnwwfHwwfHx8MA%3D%3D" alt=""></div>
+          <div class="item" style="--position: 2"><img src="https://plus.unsplash.com/premium_photo-1678297270523-8775c817d0b3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGhvdGVsfGVufDB8fDB8fHww" alt=""></div>
+          <div class="item" style="--position: 3"><img src="https://plus.unsplash.com/premium_photo-1675745329954-9639d3b74bbf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fGhvdGVsfGVufDB8fDB8fHww" alt=""></div>
+          <div class="item" style="--position: 4"><img src="https://images.unsplash.com/photo-1513618364580-fe1596762e8e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTQ0fHxyZXN0YXVyYW50fGVufDB8fDB8fHww" alt=""></div>
+          <div class="item" style="--position: 5"><img src="https://images.unsplash.com/photo-1506812428898-fe5a708f5359?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODZ8fGhvdGVsfGVufDB8fDB8fHww" alt=""></div>
+          <div class="item" style="--position: 6"><img src="https://images.unsplash.com/photo-1535827841776-24afc1e255ac?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fGhvdGVsfGVufDB8fDB8fHww" alt=""></div>
+          <div class="item" style="--position: 7"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y2FmZXxlbnwwfHwwfHx8MA%3D%3D" alt=""></div>
+          <div class="item" style="--position: 8"><img src="https://images.unsplash.com/photo-1701697791220-2be8503d26d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDQyfHxyZXN0YXVyYW50fGVufDB8fDB8fHww" alt=""></div>
+       
+      </div>
+      <div class="content">
+          <h1 data-content="BVL Hotels & Resorts">
+          BVL Hotels & Resorts
+          </h1>
+          <div class="author">
+              <h2></h2>
+              <p><b></b></p>
+              <p>
+                
+              </p>
+          </div>
+          <div class="model"></div>
+          
+      </div>
+    </div>
+    
+    <section class="client">
+      <div class="section__container client__container">
+        <h2 class="section__header">What our client say</h2>
+        <div class="client__grid">
+          <div class="client__card">
+            <img src="assets/client-1.jpg" alt="client" />
+            <p>
+              The booking process was seamless, and the confirmation was
+              instant. I highly recommend WDM&Co for hassle-free hotel bookings.
+            </p>
+          </div>
+          <div class="client__card">
+            <img src="assets/client-2.jpg" alt="client" />
+            <p>
+              The website provided detailed information about hotel, including
+              amenities, photos, which helped me make an informed decision.
+            </p>
+          </div>
+          <div class="client__card">
+            <img src="assets/client-3.jpg" alt="client" />
+            <p>
+              I was able to book a room within minutes, and the hotel exceeded
+              my expectations. I appreciate BVL's efficiency and reliability.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section__container">
+      <div class="reward__container">
+        <p>100+ discounts</p>
+        <h4>Join rewards and discover amazing discounts on your booking</h4>
+        <button class="reward__btn">Join Rewards</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="section__container footer__container">
+        <div class="footer__col">
+          <h3>BVL</h3>
+          <p>
+            BVL is a premier hotel booking website that offers a seamless and
+            convenient way to find and book accommodations worldwide.
+          </p>
+          <p>
+            With a user-friendly interface and a vast selection of hotels,
+            BVL aims to provide a stress-free experience for travelers
+            seeking the perfect stay.
+          </p>
+        </div>
+        <div class="footer__col">
+          <h4>Company</h4>
+          <p>About Us</p>
+          <p>Our Team</p>
+          <p>Menu</p>
+          <p>Book</p>
+          <p>Contact Us</p>
+        </div>
+        <div class="footer__col">
+          <h4>Legal</h4>
+          <p>FAQs</p>
+          <p>Terms & Conditions</p>
+          <p>Privacy Policy</p>
+        </div>
+        <div class="footer__col">
+          <h4>Resources</h4>
+          <p>Social Media</p>
+          <p>Help Center</p>
+          <p>Partnerships</p>
+        </div>
+      </div>
+      <div class="footer__bar">
+        Copyright © 2023 BVL. All rights reserved.
+      </div>
+    </footer>
+  </body>
+</html>
